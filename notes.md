@@ -20,4 +20,4 @@ Kanji.json from https://github.com/davidluzgouveia/kanji-data. Format as follows
 
 Fields can be null. `!` means not accepted. `^` means non-primary reading.
 
-`$ cargo run > output.csv` 
+`$ cargo run > output.tsv` 
