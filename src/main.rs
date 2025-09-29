@@ -2,6 +2,8 @@ use serde::Deserialize;
 use std::collections::HashMap;
 use std::fs::{self, File};
 
+const SEPERATOR: &str = "\t";
+
 #[derive(Deserialize, Debug)]
 struct KanjiInfo {
     #[serde(rename(deserialize = "jlpt_new"))]
@@ -39,9 +41,19 @@ impl KanjiInfo {
         let onyomi = opt_vec_to_str(&self.onyomi);
         let meanings = opt_vec_to_str(&self.meanings);
 
-        format!(
-            "{kanji};{kanken};{jlpt};{wanikani};{grade};{frequency};{kunyomi};{onyomi};{meanings}"
-        )
+        let row = [
+            kanji,
+            kanken,
+            &jlpt,
+            &wanikani,
+            &grade,
+            &frequency,
+            &kunyomi,
+            &onyomi,
+            &meanings,
+        ];
+
+        row.join(SEPERATOR)
     }
 }
 
@@ -58,7 +70,21 @@ fn main() {
     let general_kanji_json: HashMap<String, KanjiInfo> =
         serde_json::from_str(&file_contents).expect("Unable to parse JSON");
 
-    println!("kanji;kanken;jlpt;wanikani;grade;frequency;kunyomi;onyomi;meanings;");
+
+    // No real reason I'm not using serde as just saving the records.``
+    let headers= vec![
+        "kanji",
+        "kanken",
+        "jlpt",
+        "wanikani",
+        "grade",
+        "frequency",
+        "kunyomi",
+        "onyomi",
+        "meanings"
+    ];
+
+    println!("{}", headers.join(SEPERATOR));
 
     let csv_file = File::open("kanken.csv").expect("Unable to find CSV file");
     let mut reader = csv::Reader::from_reader(csv_file);
