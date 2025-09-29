@@ -14,7 +14,7 @@ import time
 BASE_URL = "https://kanjikana.com/en/kanji/kanken/"
 
 # Levels to scrape
-levels = ["10", "9", "8", "7", "6", "5"]
+levels = ["10", "9", "8", "7", "6", "5", "4", "3", "2.5", "2"]
 
 kanji_data = []
 

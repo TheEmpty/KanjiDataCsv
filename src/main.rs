@@ -30,7 +30,7 @@ fn opt_vec_to_str(val: &Option<Vec<String>>) -> String {
 }
 
 impl KanjiInfo {
-    fn to_csv(&self, kanji: &str, kanken: u8) -> String {
+    fn to_csv(&self, kanji: &str, kanken: &str) -> String {
         let jlpt = opt_to_str(&self.jlpt, "N");
         let wanikani = opt_to_str(&self.wanikani_level, "WK");
         let grade = opt_to_str(&self.grade, "G");
@@ -48,7 +48,7 @@ impl KanjiInfo {
 #[derive(serde::Deserialize)]
 struct KankenInfo {
     kanji: String,
-    level: u8,
+    level: String,
 }
 
 fn main() {
@@ -68,6 +68,6 @@ fn main() {
         let kanji_info = general_kanji_json
             .get(&kanji)
             .unwrap_or_else(|| panic!("Do not have kanji info for {kanji}"));
-        println!("{}", kanji_info.to_csv(&kanji, kanken_info.level));
+        println!("{}", kanji_info.to_csv(&kanji, &kanken_info.level));
     }
 }
